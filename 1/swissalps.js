@@ -1,4 +1,198 @@
-// Wait for the DOM to be fully loaded
+// ===== NAVIGATION FUNCTIONALITY =====
+const mainNav = document.getElementById('main-nav');
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+const navLinksItems = document.querySelectorAll('.nav-links a');
+const backToTopBtn = document.getElementById('back-to-top');
+
+// Change navigation style on scroll
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+        mainNav.classList.add('scrolled');
+    } else {
+        mainNav.classList.remove('scrolled');
+    }
+    
+    // Show/hide back to top button
+    if (window.scrollY > 500) {
+        backToTopBtn.classList.add('visible');
+    } else {
+        backToTopBtn.classList.remove('visible');
+    }
+});
+
+// Hamburger menu toggle for mobile
+hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    
+    // Animate hamburger icon
+    const lines = document.querySelectorAll('.hamburger .line');
+    lines.forEach(line => line.classList.toggle('active'));
+});
+
+// Close mobile menu when clicking on links
+navLinksItems.forEach(item => {
+    item.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        
+        // Reset hamburger icon
+        const lines = document.querySelectorAll('.hamburger .line');
+        lines.forEach(line => line.classList.remove('active'));
+    });
+});
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Back to top button functionality
+backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// ===== IMAGE GALLERY FUNCTIONALITY =====
+const galleryImages = document.querySelectorAll('.gallery-image');
+
+// Add hover effect and optional lightbox functionality
+galleryImages.forEach(image => {
+    image.addEventListener('mouseenter', () => {
+        image.style.transform = 'scale(1.05)';
+    });
+    
+    image.addEventListener('mouseleave', () => {
+        image.style.transform = 'scale(1)';
+    });
+    
+    // Optional: Add click event for lightbox
+    image.addEventListener('click', () => {
+        // Implementation for lightbox can be added here
+        console.log('Image clicked: ' + image.id);
+    });
+});
+
+// ===== NEWSLETTER SUBSCRIPTION =====
+const subscriptionForm = document.getElementById('subscription-form');
+
+subscriptionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const emailInput = subscriptionForm.querySelector('input[type="email"]');
+    const email = emailInput.value;
+    
+    if (validateEmail(email)) {
+        // Here you would normally send this to a server
+        console.log('Subscription successful for: ' + email);
+        
+        // Show success message
+        alert('Thank you for subscribing to our newsletter!');
+        
+        // Reset form
+        subscriptionForm.reset();
+    } else {
+        alert('Please enter a valid email address.');
+    }
+});
+
+// Email validation function
+function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+// ===== ANIMATION ON SCROLL =====
+// Detect when elements come into view and animate them
+const animateOnScroll = () => {
+    const sections = document.querySelectorAll('.section');
+    
+    sections.forEach(section => {
+        const sectionPosition = section.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.3;
+        
+        if (sectionPosition < screenPosition) {
+            section.classList.add('animate');
+        }
+    });
+};
+
+window.addEventListener('scroll', animateOnScroll);
+
+// ===== WEATHER API INTEGRATION =====
+// This would normally fetch weather data for Paris
+const fetchParisWeather = async () => {
+    try {
+        // For demo purposes - in a real app, you would use a weather API
+        const weatherInfo = {
+            temperature: 22,
+            condition: 'Sunny',
+            icon: 'fa-sun'
+        };
+        
+        // Update weather display if element exists
+        const weatherDisplay = document.getElementById('weather-display');
+        if (weatherDisplay) {
+            weatherDisplay.innerHTML = `
+                <i class="fas ${weatherInfo.icon}"></i>
+                <span>${weatherInfo.temperature}°C</span>
+                <span>${weatherInfo.condition}</span>
+            `;
+        }
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+    }
+};
+
+// Call weather function when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    fetchParisWeather();
+    animateOnScroll(); // Initial check for animations
+    
+    // Add animated class to hero content
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        setTimeout(() => {
+            heroContent.classList.add('animated');
+        }, 300);
+    }
+});
+
+// ===== LANGUAGE SWITCHER =====
+const languageSwitcher = document.getElementById('language-switcher');
+if (languageSwitcher) {
+    languageSwitcher.addEventListener('change', (e) => {
+        const language = e.target.value;
+        // In a real app, this would change the language
+        console.log('Language changed to: ' + language);
+    });
+}
+
+// ===== INTERACTIVE MAP =====
+// This would initialize a map in a real application
+const initMap = () => {
+    // For demonstration - in a real app, you would use a mapping API
+    console.log('Map initialized');
+    
+    // Paris coordinates: 48.8566° N, 2.3522° E
+    const parisCoordinates = {
+        lat: 48.8566,
+        lng: 2.3522
+    };
+    
+    // Map initialization code would go here
+};// Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Nav toggle functionality for mobile
     const burger = document.querySelector('.burger');
